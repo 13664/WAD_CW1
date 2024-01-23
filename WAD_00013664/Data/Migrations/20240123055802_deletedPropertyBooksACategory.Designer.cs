@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WAD_00013664.Data;
 
@@ -10,9 +11,11 @@ using WAD_00013664.Data;
 namespace WAD00013664.Data.Migrations
 {
     [DbContext(typeof(BookCatalogDbContext))]
-    partial class BookCatalogDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240123055802_deletedPropertyBooksACategory")]
+    partial class deletedPropertyBooksACategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

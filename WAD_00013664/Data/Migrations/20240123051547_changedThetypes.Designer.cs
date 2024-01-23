@@ -11,8 +11,8 @@ using WAD_00013664.Data;
 namespace WAD00013664.Data.Migrations
 {
     [DbContext(typeof(BookCatalogDbContext))]
-    [Migration("20240116095512_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240123051547_changedThetypes")]
+    partial class changedThetypes
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,7 +24,7 @@ namespace WAD00013664.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("WAD_00013664.Book", b =>
+            modelBuilder.Entity("WAD_00013664.Models.Book", b =>
                 {
                     b.Property<int>("BookId")
                         .ValueGeneratedOnAdd()
@@ -32,12 +32,31 @@ namespace WAD00013664.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookId"));
 
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ISBN")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("YearPublication")
+                        .HasColumnType("int");
 
                     b.HasKey("BookId");
 
@@ -46,26 +65,26 @@ namespace WAD00013664.Data.Migrations
                     b.ToTable("Books");
                 });
 
-            modelBuilder.Entity("WAD_00013664.Category", b =>
+            modelBuilder.Entity("WAD_00013664.Models.Category", b =>
                 {
-                    b.Property<int>("CategoryId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("CategoryId");
+                    b.HasKey("Id");
 
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("WAD_00013664.Book", b =>
+            modelBuilder.Entity("WAD_00013664.Models.Book", b =>
                 {
-                    b.HasOne("WAD_00013664.Category", "Category")
+                    b.HasOne("WAD_00013664.Models.Category", "Category")
                         .WithMany("Books")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -74,7 +93,7 @@ namespace WAD00013664.Data.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("WAD_00013664.Category", b =>
+            modelBuilder.Entity("WAD_00013664.Models.Category", b =>
                 {
                     b.Navigation("Books");
                 });

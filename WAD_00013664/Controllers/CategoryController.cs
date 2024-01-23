@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WAD_00013664.Data;
+using WAD_00013664.Models;
 
 namespace WAD_00013664.Controllers
 {
@@ -32,9 +33,14 @@ namespace WAD_00013664.Controllers
         /// <param name="category"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
+       // [Route("{id:Guid}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var category = await _dbContext.Categories.FindAsync(id);
+            var category = await _dbContext.Categories.FirstOrDefaultAsync(x => x.Id == id);
+            if(category == null)
+            {
+                return NotFound();
+            }
             return Ok(category);
 
         }
@@ -55,7 +61,7 @@ namespace WAD_00013664.Controllers
             await _dbContext.Categories.AddAsync(category);
             await _dbContext.SaveChangesAsync();    
             
-            return CreatedAtAction(nameof(Category), new {id = category.CategoryId}, category);
+            return CreatedAtAction(nameof(GetById), new {id = category.Id}, category);
         }
 
         /// <summary>
@@ -66,7 +72,7 @@ namespace WAD_00013664.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, Category category)
         {
-            if (id != category.CategoryId)
+            if (!id.Equals(category.Id))
             {
                 return BadRequest();
             }
@@ -84,12 +90,14 @@ namespace WAD_00013664.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
-            var category = await _dbContext.Categories.FindAsync(id);
+            var category = await _dbContext.Categories.FirstOrDefaultAsync(x => x.Id == id);
             if (category == null)
             {
                 return BadRequest();
             }
             _dbContext.Categories.Remove(category);
+            await _dbContext.SaveChangesAsync();
+
 
             return NoContent();
         }

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WAD_00013664.Data;
 
@@ -10,9 +11,11 @@ using WAD_00013664.Data;
 namespace WAD00013664.Data.Migrations
 {
     [DbContext(typeof(BookCatalogDbContext))]
-    partial class BookCatalogDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240123051005_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,6 +60,8 @@ namespace WAD00013664.Data.Migrations
 
                     b.HasKey("BookId");
 
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("Books");
                 });
 
@@ -75,6 +80,22 @@ namespace WAD00013664.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("WAD_00013664.Models.Book", b =>
+                {
+                    b.HasOne("WAD_00013664.Models.Category", "Category")
+                        .WithMany("Books")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("WAD_00013664.Models.Category", b =>
+                {
+                    b.Navigation("Books");
                 });
 #pragma warning restore 612, 618
         }

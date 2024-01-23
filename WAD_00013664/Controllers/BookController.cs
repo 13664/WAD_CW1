@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WAD_00013664.Data;
+using WAD_00013664.Models;
 
 namespace WAD_00013664.Controllers
 {
@@ -27,7 +28,7 @@ namespace WAD_00013664.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var book = await _dbContext.Books.FindAsync(id);
+            var book = await _dbContext.Books.FirstOrDefaultAsync(x => x.BookId == id);
             return Ok(book);
         }
 
@@ -48,7 +49,7 @@ namespace WAD_00013664.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, Book book)
         {
-            if (id != book.BookId)
+            if (!id.Equals(book.BookId))
             {
                 return BadRequest();
             }
@@ -62,12 +63,14 @@ namespace WAD_00013664.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
-            var item = await _dbContext.Books.FindAsync(id);
+            var item = await _dbContext.Books.FirstOrDefaultAsync(x => x.BookId == id);
             if (item == null)
             {
                 return BadRequest();
             }
             _dbContext.Books.Remove(item);
+            await _dbContext.SaveChangesAsync();
+
 
             return NoContent();
         }
