@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using WAD_00013664.Data;
+using WAD_00013664.Models;
+using WAD_00013664.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +15,8 @@ builder.Services.AddDbContext<BookCatalogDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
-
+builder.Services.AddScoped<IRepository<Book>, BookRepository>();
+builder.Services.AddScoped<IRepository<Category>, CategoryRepository>();
 var app = builder.Build();
 
 

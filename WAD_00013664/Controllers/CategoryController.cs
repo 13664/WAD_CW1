@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WAD_00013664.Data;
 using WAD_00013664.Models;
+using WAD_00013664.Repositories;
 
 namespace WAD_00013664.Controllers
 {
@@ -10,11 +11,11 @@ namespace WAD_00013664.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        private readonly BookCatalogDbContext _dbContext;
+        private readonly IRepository<Category>  _repository;
 
-        public CategoryController(BookCatalogDbContext bookCatalogDbContext)
+        public CategoryController(IRepository<Category> repository)
         {
-            _dbContext = bookCatalogDbContext;
+            _repository = repository;
         }
 
         /// <summary>
@@ -22,10 +23,9 @@ namespace WAD_00013664.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IEnumerable<Category>> GetAll()
         {
-            var result = await _dbContext.Categories.ToListAsync();
-            return Ok(result);
+           return await _repository.GetAllAsync();
         }
         /// <summary>
         /// get category by id 
@@ -33,10 +33,12 @@ namespace WAD_00013664.Controllers
         /// <param name="category"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-       // [Route("{id:Guid}")]
+        // [Route("{id:Guid}")]
+        [ProducesResponseType(typeof(Category), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(int id)
         {
-            var category = await _dbContext.Categories.FirstOrDefaultAsync(x => x.Id == id);
+            var category = await _repository.GetByIDAsync(id);
             if(category == null)
             {
                 return NotFound();
@@ -51,15 +53,16 @@ namespace WAD_00013664.Controllers
         /// <param name="category"></param>
         /// <returns></returns>
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+
         public async Task<IActionResult> Create(Category category)
         {
             if(category == null)
             {
                 return BadRequest();
-            }   
+            }
 
-            await _dbContext.Categories.AddAsync(category);
-            await _dbContext.SaveChangesAsync();    
+            await _repository.AddAsync(category);  
             
             return CreatedAtAction(nameof(GetById), new {id = category.Id}, category);
         }
@@ -70,14 +73,15 @@ namespace WAD_00013664.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Update(int id, Category category)
         {
             if (!id.Equals(category.Id))
             {
                 return BadRequest();
             }
-            _dbContext.Entry(category).State = EntityState.Modified;
-            await _dbContext.SaveChangesAsync();
+            await _repository.UpdateAsync(category);
             return NoContent();
 
         }
@@ -88,17 +92,11 @@ namespace WAD_00013664.Controllers
         /// <returns></returns>
 
         [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(int id)
         {
-            var category = await _dbContext.Categories.FirstOrDefaultAsync(x => x.Id == id);
-            if (category == null)
-            {
-                return BadRequest();
-            }
-            _dbContext.Categories.Remove(category);
-            await _dbContext.SaveChangesAsync();
-
-
+            await _repository.DeleteAsync(id);
             return NoContent();
         }
 
