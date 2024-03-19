@@ -24,8 +24,8 @@ namespace WAD_00013664.Models
         [Required(ErrorMessage = "Please select a category.")]
 
         [ForeignKey(nameof(Category))]
-        public int CategoryId { get; set; }
-
-        //public Category? Category { get; set; } = null!;
+        public int? CategoryId { get; set; }
+        //[ForeignKey("CategoryID")]
+        public Category? Category { get; set; } = null!;
     }
 }

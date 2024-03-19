@@ -41,6 +41,7 @@ namespace WAD_00013664.Controllers
         {
             
             await _dbContext.AddAsync(book);
+            //return Ok(book);
             return CreatedAtAction(nameof(GetById), new {id = book.BookId}, book);
         }
 

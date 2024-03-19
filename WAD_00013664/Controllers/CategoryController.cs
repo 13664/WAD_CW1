@@ -7,7 +7,7 @@ using WAD_00013664.Repositories;
 
 namespace WAD_00013664.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class CategoryController : ControllerBase
     {

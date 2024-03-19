@@ -29,11 +29,11 @@ namespace WAD_00013664.Repositories
 
         }
 
-        public async Task<IEnumerable<Book>> GetAllAsync() => await _context.Books.ToListAsync();
+        public async Task<IEnumerable<Book>> GetAllAsync() => await _context.Books.Include(t => t.Category).ToListAsync();
 
 
         public async Task<Book> GetByIDAsync(int id) =>
-        await _context.Books.FirstOrDefaultAsync(x => x.BookId == id);
+        await _context.Books.Include(t => t.Category).FirstOrDefaultAsync(t => t.BookId == id);
 
 
         public async Task UpdateAsync(Book entity)
