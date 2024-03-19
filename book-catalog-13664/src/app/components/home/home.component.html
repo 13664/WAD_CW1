@@ -1,0 +1,66 @@
+<div class="details">
+  <table mat-table [dataSource]="items" class="card">
+    <ng-container matColumnDef="BookID">
+      <th mat-header-cell *matHeaderCellDef>BookID</th>
+      <td mat-cell *matCellDef="let element">{{ element.bookId }}</td>
+    </ng-container>
+    <ng-container matColumnDef="ISBN">
+      <th mat-header-cell *matHeaderCellDef>ISBN</th>
+      <td mat-cell *matCellDef="let element">{{ element.isbn }}</td>
+    </ng-container>
+    <ng-container matColumnDef="Title">
+      <th mat-header-cell *matHeaderCellDef>Title</th>
+      <td mat-cell *matCellDef="let element">{{ element.title }}</td>
+    </ng-container>
+    <ng-container matColumnDef="YearPublished">
+      <th mat-header-cell *matHeaderCellDef>YearPublished</th>
+      <td mat-cell *matCellDef="let element">{{ element.yearPublication }}</td>
+    </ng-container>
+    <ng-container matColumnDef="Author">
+      <th mat-header-cell *matHeaderCellDef>Author</th>
+      <td mat-cell *matCellDef="let element">{{ element.author }}</td>
+    </ng-container>
+    <ng-container matColumnDef="Price">
+      <th mat-header-cell *matHeaderCellDef>Price</th>
+      <td mat-cell *matCellDef="let element">{{ element.price }}</td>
+    </ng-container>
+    <ng-container matColumnDef="Description">
+      <th mat-header-cell *matHeaderCellDef>Description</th>
+      <td mat-cell *matCellDef="let element">{{ element.description }}</td>
+    </ng-container>
+    <ng-container matColumnDef="CategoryName">
+      <th mat-header-cell *matHeaderCellDef>CategoryName</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.category.title }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="Actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let element">
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="EditClicked(element.bookId)"
+        >
+          Edit
+        </button>
+        <button
+          mat-raised-button
+          color="accent"
+          (click)="DetailsClicked(element.bookId)"
+        >
+          Details
+        </button>
+        <button
+          mat-raised-button
+          color="warn"
+          (click)="DeleteClicked(element.bookId)"
+        >
+          Delete
+        </button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="derivedColummns"></tr>
+    <tr mat-row *matRowDef="let row; columns: derivedColummns"></tr>
+  </table>
+</div>

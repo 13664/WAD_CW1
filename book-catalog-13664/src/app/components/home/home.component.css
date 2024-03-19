@@ -1,0 +1,15 @@
+.details {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(222, 220, 174);
+  height: 100vh;
+}
+.card {
+  background-color: rgba(220, 223, 177, 0.799);
+  color: rgb(241, 234, 234);
+  font-size: 20px;
+}
+.card {
+  width: 100%;
+}
+/* Separate buttons by 10px */

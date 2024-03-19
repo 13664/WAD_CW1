@@ -1,0 +1,21 @@
+.details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: url("../../../assets/pexels-min-an-694740.jpg");  background-color: rgb(246, 242, 168);
+  height: 100vh;
+  font-size: 25px;
+  background-size: contain;
+  align-items: top;
+}
+.card {
+  width: 400px;
+  padding: 20px;
+  background-color: rgb(246, 242, 168);
+  color: rgb(241, 234, 234);
+  font-size: 20px;
+  margin:auto;
+}
+.buttons{
+  padding: 10px;
+}

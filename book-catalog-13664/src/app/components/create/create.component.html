@@ -1,0 +1,80 @@
+<div class="details">
+  <form class="card">
+    <div class="flex">
+      <mat-form-field class="w-full">
+        <mat-label>Title</mat-label>
+        <input
+          matInput
+          name="title"
+          type="text"
+          [(ngModel)]="createBook.title"
+        />
+      </mat-form-field>
+    </div>
+    <div class="flex">
+      <mat-form-field class="w-full">
+        <mat-label>ISBN</mat-label>
+        <input matInput name="ISBN" type="text" [(ngModel)]="createBook.isbn" />
+      </mat-form-field>
+    </div>
+    <div class="flex">
+      <mat-form-field class="w-full">
+        <mat-label>YearPublished</mat-label>
+        <input
+          matInput
+          name="YearPublished"
+          type="text"
+          [(ngModel)]="createBook.yearPublication"
+        />
+      </mat-form-field>
+    </div>
+    <div class="flex">
+      <mat-form-field class="w-full">
+        <mat-label>Author</mat-label>
+        <input
+          matInput
+          name="Author"
+          type="text"
+          [(ngModel)]="createBook.author"
+        />
+      </mat-form-field>
+    </div>
+    <div class="flex">
+      <mat-form-field class="w-full">
+        <mat-label>Price</mat-label>
+        <input
+          matInput
+          name="Price"
+          type="text"
+          [(ngModel)]="createBook.price"
+        />
+      </mat-form-field>
+    </div>
+    <div class="flex">
+      <mat-form-field class="w-full">
+        <mat-label>Description</mat-label>
+        <input
+          matInput
+          name="description"
+          type="text"
+          [(ngModel)]="createBook.description"
+        />
+      </mat-form-field>
+    </div>
+    <div class="flex">
+      <mat-form-field class="w-full">
+        <mat-label>Choose Category</mat-label>
+        <mat-select [(ngModel)]="cID" name="Category">
+          @for(c of cate; track c){
+          <mat-option [value]="c.id">{{ c.title }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="flex justify-center">
+      <button mat-raised-button color="primary" (click)="create()">
+        Create
+      </button>
+    </div>
+  </form>
+</div>

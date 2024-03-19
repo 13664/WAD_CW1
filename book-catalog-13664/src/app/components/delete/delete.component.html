@@ -1,0 +1,23 @@
+<div class="details">
+  <mat-card class="card">
+    <mat-card-content>
+      <div class="p-8">
+        <div class="card-content">
+          <h2>Title: <span class="info">{{deleteBook.title}}</span></h2>
+          <p><strong>ISBN:</strong> <span class="info">{{deleteBook.isbn}}</span></p>
+          <p><strong>Author:</strong> <span class="info">{{deleteBook.author}}</span></p>
+          
+          <p><strong>Price:</strong> <span class="info">{{deleteBook.price}}</span></p>
+          <p><strong>Year of Publication:</strong> <span class="info">{{deleteBook.yearPublication}}</span></p>
+          <p><strong>Category:</strong> <span class="info">{{deleteBook.category.title}}</span></p>
+          <p><strong>Description:</strong> <span class="info">{{deleteBook.description}}</span></p>
+        <div class="flex justify-center">
+          <button mat-raised-button color="primary" (click)="delete(deleteBook.bookId)">Delete</button>
+        </div>
+      </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+
